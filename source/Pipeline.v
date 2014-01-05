@@ -40,22 +40,22 @@ module Pipeline(
 	AbsoluteDifference #(window_size,num_bits) absdif (
 		.in1		(in_left),
 		.in2		(in_right),
-		.clock	(clock),
-		.reset_n (reset_n),
+		.clock	    (clock),
+		.reset_n    (reset_n),
 		.out		(abs_difs)
 	);
 	
 	AdderTree #(window_size,num_bits,num_bits_out_add) add (
 		.abs_difs	(abs_difs),
 		.clock		(clock),
-		.reset_n		(reset_n),
-		.sum			(sum)
+		.reset_n	(reset_n),
+		.sum		(sum)
 	);
 
 	Accumulator #(window_size,num_bits_out_add,num_bits_out) acc (
 		.in			(sum),
 		.clock		(clock),
-		.reset_n		(reset_n),
+		.reset_n	(reset_n),
 		.window_sum	(window_sum)
 	);
 	

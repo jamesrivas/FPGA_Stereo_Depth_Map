@@ -39,33 +39,33 @@ module disparity_counter(
 	
 	initial
 	begin
-		valid			 			<= 0;
+		valid			 		<= 0;
 		pixel 		 			<= 0;
 		disparity_1  			<= 63;
 		disparity_2  			<= 63;
 		disparity_3  			<= 63;
 		disparity_4  			<= 63;	
-		state			 			<= 0;
-		count			 			<= 0;
-		cycle			 			<= 0;
+		state			 		<= 0;
+		count			 		<= 0;
+		cycle			 		<= 0;
 		clear_buffer 			<= 0;
-		clear_buffer_count	<= 0;
+		clear_buffer_count	    <= 0;
 	end
 	
 	always @(posedge clock or negedge reset_n)
 	begin
 		if(~reset_n)
 		begin
-			valid			 			<= 0;
-			pixel 		 			<= 0;
-			disparity_1  			<= 63;
-			disparity_2  			<= 63;
-			disparity_3  			<= 63;
-			disparity_4  			<= 63;	
-			state			 			<= 0;
-			count			 			<= 0;
-			cycle			 			<= 0;
-			clear_buffer 			<= 0;
+			valid			 	<= 0;
+			pixel 		 		<= 0;
+			disparity_1  		<= 63;
+			disparity_2  		<= 63;
+			disparity_3  		<= 63;
+			disparity_4  		<= 63;	
+			state			 	<= 0;
+			count			 	<= 0;
+			cycle			 	<= 0;
+			clear_buffer 		<= 0;
 			clear_buffer_count	<= 0;
 		end
 		else
@@ -74,12 +74,12 @@ module disparity_counter(
 				0:		begin
 							if (read_start == 1)
 							begin
-								count			<= 0;
+								count		<= 0;
 								disparity_1 <= 0;
 								disparity_2 <= 1;
 								disparity_3 <= 2;
 								disparity_4 <= 3;
-								state			<= 1;
+								state		<= 1;
 							end
 						end
 						
@@ -88,8 +88,8 @@ module disparity_counter(
 							if (count == 11)
 							begin
 								valid 		<= 1;
-								pixel			<= 0;
-								state			<= 2;
+								pixel		<= 0;
+								state		<= 2;
 							end
 							else
 							begin
@@ -100,16 +100,16 @@ module disparity_counter(
 				2:		begin
 							if (cycle == 16)
 							begin
-								valid				<= 0;
+								valid			<= 0;
 								count 			<= 0;
-								pixel				<= 0;
-								cycle				<= 0;
+								pixel			<= 0;
+								cycle			<= 0;
 								disparity_1 	<= 0;
 								disparity_2 	<= 0;
 								disparity_3 	<= 0;
 								disparity_4 	<= 0;
 								clear_buffer 	<= 1;
-								state				<= 3;
+								state			<= 3;
 							end
 							else
 							begin
@@ -125,18 +125,18 @@ module disparity_counter(
 								else if (pixel == 643 && cycle != 15)
 								begin
 									valid 		<= 1;
-									pixel			<= 0;
+									pixel		<= 0;
 									cycle 		<= cycle +1'b1;
 								end
 								else if (pixel == 643 && cycle == 15)
 								begin
 									valid 		<= 0;
-									pixel			<= 0;
+									pixel		<= 0;
 									cycle 		<= cycle +1'b1;
 								end
 								else
 								begin
-									pixel			<= pixel + 1'b1;
+									pixel		<= pixel + 1'b1;
 								end
 							end
 						end
@@ -144,9 +144,9 @@ module disparity_counter(
 				3:		begin
 							if (clear_buffer_count == 639)
 							begin
-								clear_buffer			<= 0;
+								clear_buffer		<= 0;
 								clear_buffer_count	<= 0;
-								state						<= 0;
+								state				<= 0;
 							end
 							else
 							begin

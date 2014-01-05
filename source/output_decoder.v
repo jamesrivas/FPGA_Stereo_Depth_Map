@@ -19,10 +19,11 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module output_decoder(
-	 input wire clock,
-	 input wire valid_in,
+	input wire clock,
+	input wire valid_in,
     input wire [5:0] data_in,
-	 output reg valid_out,
+	
+    output reg valid_out,
     output reg [7:0] data_out
     );
 	//16 - 0,17,34,51,68,85,102,119,136,153,170,187,204,221,238,255
@@ -33,7 +34,7 @@ module output_decoder(
 	initial
 	begin
 		data_out		<= 8'b0;
-		valid_out	<= 1'b0;
+		valid_out	    <= 1'b0;
 	end
 	
 	always @(posedge clock)
@@ -54,73 +55,73 @@ module output_decoder(
 			
 			8:		data_out	<= 8'd34;
 			9:		data_out	<= 8'd34;
-			10:	data_out	<= 8'd34;
-			11:	data_out	<= 8'd34;
+			10:	    data_out	<= 8'd34;
+			11:	    data_out	<= 8'd34;
 			
-			12:	data_out	<= 8'd51;
-			13:	data_out	<= 8'd51;
-			14:	data_out	<= 8'd51;
-			15:	data_out	<= 8'd51;
+			12:	    data_out	<= 8'd51;
+			13:	    data_out	<= 8'd51;
+			14:	    data_out	<= 8'd51;
+			15:	    data_out	<= 8'd51;
 			
-			16:	data_out	<= 8'd68;
-			17:	data_out	<= 8'd68;
-			18:	data_out	<= 8'd68;
-			19:	data_out	<= 8'd68;
+			16:	    data_out	<= 8'd68;
+			17:	    data_out	<= 8'd68;
+			18:	    data_out	<= 8'd68;
+			19:	    data_out	<= 8'd68;
 			
-			20:	data_out	<= 8'd85;
-			21:	data_out	<= 8'd85;
-			22:	data_out	<= 8'd85;
-			23:	data_out	<= 8'd85;
+			20:	    data_out	<= 8'd85;
+			21:	    data_out	<= 8'd85;
+			22:	    data_out	<= 8'd85;
+			23:	    data_out	<= 8'd85;
 			
-			24:	data_out	<= 8'd102;
-			25:	data_out	<= 8'd102;
-			26:	data_out	<= 8'd102;
-			27:	data_out	<= 8'd102;
+			24:	    data_out	<= 8'd102;
+			25:	    data_out	<= 8'd102;
+			26:	    data_out	<= 8'd102;
+			27:	    data_out	<= 8'd102;
 			
-			28:	data_out	<= 8'd119;
-			29:	data_out	<= 8'd119;
-			30:	data_out	<= 8'd119;
-			31:	data_out	<= 8'd119;
+			28:	    data_out	<= 8'd119;
+			29:	    data_out	<= 8'd119;
+			30:	    data_out	<= 8'd119;
+			31:	    data_out	<= 8'd119;
 			
-			32:	data_out	<= 8'd136;
-			33:	data_out	<= 8'd136;
-			34:	data_out	<= 8'd136;
-			35:	data_out	<= 8'd136;
+			32:	    data_out	<= 8'd136;
+			33:	    data_out	<= 8'd136;
+			34:	    data_out	<= 8'd136;
+			35:	    data_out	<= 8'd136;
 			
-			36:	data_out	<= 8'd153;
-			37:	data_out	<= 8'd153;
-			38:	data_out	<= 8'd153;
-			39:	data_out	<= 8'd153;
+			36:	    data_out	<= 8'd153;
+			37:	    data_out	<= 8'd153;
+			38:	    data_out	<= 8'd153;
+			39:	    data_out	<= 8'd153;
 			
-			40:	data_out	<= 8'd170;
-			41:	data_out	<= 8'd170;
-			42:	data_out	<= 8'd170;
-			43:	data_out	<= 8'd170;
+			40:	    data_out	<= 8'd170;
+			41:	    data_out	<= 8'd170;
+			42:	    data_out	<= 8'd170;
+			43:	    data_out	<= 8'd170;
 			
-			44:	data_out	<= 8'd187;
-			45:	data_out	<= 8'd187;
-			46:	data_out	<= 8'd187;
-			47:	data_out	<= 8'd187;
+			44:	    data_out	<= 8'd187;
+			45:	    data_out	<= 8'd187;
+			46:	    data_out	<= 8'd187;
+			47:	    data_out	<= 8'd187;
 			
-			48:	data_out	<= 8'd204;
-			49:	data_out	<= 8'd204;
-			50:	data_out	<= 8'd204;
-			51:	data_out	<= 8'd204;
+			48:	    data_out	<= 8'd204;
+			49:	    data_out	<= 8'd204;
+			50:	    data_out	<= 8'd204;
+			51:	    data_out	<= 8'd204;
 			
-			52:	data_out	<= 8'd221;
-			53:	data_out	<= 8'd221;
-			54:	data_out	<= 8'd221;
-			55:	data_out	<= 8'd221;
+			52:	    data_out	<= 8'd221;
+			53:	    data_out	<= 8'd221;
+			54:	    data_out	<= 8'd221;
+			55:	    data_out	<= 8'd221;
 			
-			56:	data_out	<= 8'd238;
-			57:	data_out	<= 8'd238;
-			58:	data_out	<= 8'd238;
-			59:	data_out	<= 8'd238;
+			56:	    data_out	<= 8'd238;
+			57:	    data_out	<= 8'd238;
+			58:	    data_out	<= 8'd238;
+			59:	    data_out	<= 8'd238;
 			
-			60:	data_out	<= 8'd255;
-			61:	data_out	<= 8'd255;
-			62:	data_out	<= 8'd255;
-			63:	data_out	<= 8'd255;
+			60:	    data_out	<= 8'd255;
+			61:	    data_out	<= 8'd255;
+			62:	    data_out	<= 8'd255;
+			63:	    data_out	<= 8'd255;
 		endcase
 	end
 endmodule

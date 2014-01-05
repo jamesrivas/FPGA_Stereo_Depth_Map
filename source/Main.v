@@ -78,11 +78,12 @@ module Main(
 	wire [19:0] data_out;
 	wire clear_buffer;
 	wire valid_out;
+    wire [7:0] decoded_output;
 	
 	
 	clock_creator clks (
 		.CLK_IN1		(clock_100),
-		.CLK_OUT1	(clock_200)
+		.CLK_OUT1	    (clock_200)
 	);
 	
 	camera_interface cam (
@@ -92,28 +93,28 @@ module Main(
 		.line_valid		(line_valid),
 		.pixel_data		(pixel_data),
 		//Outputs
-		.reset_n			(reset_n),
+		.reset_n		(reset_n),
 		.read_start		(read_start),
 		.pixels_ps		(address_in),
 		.left_valid		(right_enable), //INTENTIONALLY SWITCHED
 		.right_valid	(left_enable),  //LEFT=RIGHT and RIGHT=LEFT
 		.select_ps		(select),
-		.data				(data_in)
+		.data			(data_in)
 	);	
 	
 	buffer_to_pipeline uut (
 		//Inputs
 		.clock_slow		(pixel_clock),
 		.clock_fast		(clock_200),
-		.reset_n			(reset_n),
+		.reset_n		(reset_n),
 		.read_start		(read_start), 
 		.left_enable	(left_enable),
 		.right_enable	(right_enable),
 		.address_in		(address_in), 
-		.data_in			(data_in),
+		.data_in		(data_in),
 		.select			(select),
 		//Outputs
-		.out_left(column_left), 
+		.out_left       (column_left), 
 		.out_right_1	(column_right_1), 
 		.out_right_2	(column_right_2), 
 		.out_right_3	(column_right_3), 
@@ -121,54 +122,66 @@ module Main(
 	);
 
 	Pipeline pipe1 (
-		.clock		(clock_200),
-		.reset_n		(reset_n),
-		.in_left		(column_left),
-		.in_right	(column_right_1),
-		.window_sum	(ws1)
+        //Inputs
+		.clock		    (clock_200),
+		.reset_n	    (reset_n),
+		.in_left	    (column_left),
+		.in_right	    (column_right_1),
+		//Outputs
+        .window_sum	    (ws1)
 	);
 	Pipeline pipe2 (
-		.clock		(clock_200),
+		//Inputs
+        .clock		    (clock_200),
 		.reset_n		(reset_n),
 		.in_left		(column_left),
-		.in_right	(column_right_2),
-		.window_sum	(ws2)
+		.in_right	    (column_right_2),
+		//Outputs
+        .window_sum	    (ws2)
 	);
 	Pipeline pipe3 (
-		.clock		(clock_200),
+		//Inputs
+        .clock		    (clock_200),
 		.reset_n		(reset_n),
 		.in_left		(column_left),
-		.in_right	(column_right_3),
-		.window_sum	(ws3)
+		.in_right	    (column_right_3),
+		//Outputs
+        .window_sum	    (ws3)
 	);
 	Pipeline pipe4 (
-		.clock		(clock_200),
+		//Inputs
+        .clock		    (clock_200),
 		.reset_n		(reset_n),
 		.in_left		(column_left),
-		.in_right	(column_right_4),
-		.window_sum	(ws4)
+		.in_right	    (column_right_4),
+		//Outputs
+        .window_sum	    (ws4)
 	);
 	
 	compare_ws compare (
-		.clock		(clock_200),
+		//Inputs
+        .clock		    (clock_200),
 		.reset_n		(reset_n),
 		.ws1			(ws1),
 		.ws2			(ws2),
 		.ws3			(ws3),
 		.ws4			(ws4),
-		.disp_1		(disparity_1),
-		.disp_2		(disparity_2),
-		.disp_3		(disparity_3),
-		.disp_4		(disparity_4),
-		.disparity	(disparity),
-		.window_sum	(window_sum)
+		.disp_1		    (disparity_1),
+		.disp_2		    (disparity_2),
+		.disp_3		    (disparity_3),
+		.disp_4		    (disparity_4),
+		//Outputs
+        .disparity	    (disparity),
+		.window_sum	    (window_sum)
 	);
 	
 	disparity_counter disp (
-		.clock			(clock_200),
-		.reset_n			(reset_n),
+		//Inputs
+        .clock			(clock_200),
+		.reset_n		(reset_n),
 		.read_start		(read_start),
-		.valid			(valid),
+		//Outputs
+        .valid			(valid),
 		.pixel			(),
 		.disparity_1	(disparity_1),
 		.disparity_2	(disparity_2),
@@ -178,22 +191,25 @@ module Main(
 	);
 	
 	fifo_buffer	fifo (
-		.clock			(clock_200),
-		.data_in			({disparity, window_sum}),
+		//Inputs
+        .clock			(clock_200),
+		.data_in		({disparity, window_sum}),
 		.valid			(valid),
 		.disparity		(disparity_1),
-		.read				(clear_buffer),
-		.empty			(),
+		.read			(clear_buffer),
+		//Outputs
+        .empty			(),
 		.data_out		(data_out)
 	);
 	
-	wire [7:0] new_output;
 	output_decoder dec (
-		.clock			(clock_200),
+		//Inputs
+        .clock			(clock_200),
 		.valid_in		(clear_buffer),
-		.data_in			(data_out[19:14]),
-		.valid_out		(valid_out),
-		.data_out		(new_output)
+		.data_in		(data_out[19:14]),
+		//Outputs
+        .valid_out		(valid_out),
+		.data_out		(decoded_output)
 	);
 	
 	FPGALink usb (
@@ -210,7 +226,7 @@ module Main(
 		//FIFO
 		.data_clock		(clock_200), 
 		.data_valid		(valid_out), 
-		.data_in			(new_output)
+		.data_in		(decoded_output)
 	);
 
 endmodule

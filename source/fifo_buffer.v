@@ -37,11 +37,11 @@ module fifo_buffer(
 	disparity_fifo buff (
 		.clk			(clock),
 		.din			(din),
-		.wr_en		(wr_en),
-		.rd_en		(rd_en),
+		.wr_en		    (wr_en),
+		.rd_en		    (rd_en),
 		.dout			(data_out),
 		.full			(),
-		.empty		(empty)
+		.empty		    (empty)
 	);
 	
 	
@@ -53,29 +53,29 @@ module fifo_buffer(
 			begin
 				wr_en		<= 1;
 				rd_en		<= 0;
-				din		<= data_in;
+				din		    <= data_in;
 			end
 			else
 			begin
 				wr_en		<= 1;
 				rd_en		<= 1;
 				if (data_in[13:0] < data_out[13:0])
-					din	<= data_in;
+					din	    <= data_in;
 				else
-					din	<= data_out;
+					din	    <= data_out;
 			end
 		end
 		else if (read == 1)
 		begin
 			wr_en <= 0;
 			rd_en <= 1;
-			din	<= 0;
+			din	  <= 0;
 		end
 		else
 		begin
 			wr_en <= 0;
 			rd_en <= 0;
-			din	<= 0;
+			din	  <= 0;
 		end
 	end
 
