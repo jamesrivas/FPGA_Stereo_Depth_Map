@@ -1,1 +1,26 @@
-temp
+The purpose of this project was to create and display a real time "depth map" from a pair of stereo video cameras. The information contained in the depth map would give a system depth perception ability, which has various practical applications such as robot navigation and automobile collision avoidance.
+
+Video was captured at 30fps at a resolution of 640x480 from a stereo camera system. This information was transmitted to an FPGA development board, which attempted to find the relative depth of each pixel in the image. Once the depth of all of the pixels for a particular frame were calculated, the resulting "depth map" was transmitted to a PC via USB interface to be displayed.
+
+The way to calculate depth from a set of stereo images is simple. First a pixel from one of the stereo images must be matched to the corresponding pixel from the other image. Assuming that the cameras are mounted parallel to each other, the only difference between these pixels should be some horizontal translation. The amount of horizontal translation depends on the distance the pixel is from the cameras. A pixel that is close to the cameras will have a large horizontal translation, while a pixel that is far from the cameras will have a small horizontal translation. By calculating the horizontal translation for each pixel in the image, a color coded depth map can be created that will show how far each pixel is away from the camera.
+
+Code organization:
+camera interface -> pixel data buffers -> processing pipelines -> pipeline output aggregator -> output buffer -> USB interface
+
+Camera Interface:
+The purpose of the camera interface is to find the start of each from and each line, and to capture the pixel data. The camera interface also has to seperate the left and right images for each frame, because they are transmitted from the camera as one combined image.
+
+Pixel Data Buffers:
+The purpose of the pixel data buffers is to store enough lines of pixel data to populate the pipeline. There are five buffers created. One buffer that holds left image data shared by all 4 of the pipelines, and one buffer per pipeline that holds right image data. Each buffer holds 6 lines of data.
+
+Processing Pipelines:
+The purpose of the processing pipelines is to compare pixels from the left image to pixels from the right image, in order to find the matching pixel. In order to improve matching accuracy, a group of 5x5 pixels is compared between images, instead of a single pixel. The pipeline outputs a value which represents how well matched each set of 5x5 pixels is.
+
+Pipeline Output Aggregator:
+The purpose of the pipeline output aggregator is to compare the matching values for the sets of 5x5 pixels, and to output the best matching pair and the horizontal translation between them.
+
+Output Buffer:
+The output buffer stores the horizontal translation data for each of the 640x480 pixels in the image so that they can be transmitted to the PC for display.
+
+USB Interface:
+The USB interface controls the flow of data to and from the PC.
